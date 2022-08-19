@@ -10,7 +10,7 @@ export const MainContainer = styled.div`
 `;
 
 export const FormContainer = styled.div`
-  width: 20vw;
+  min-width: 20rem;
   height: 50vh;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ export const StyledInput = styled.input`
   all: unset;
   border: 1px solid #111111;
   background-color: #d2d2d2;
-  width: 16vw;
+  width: 16rem;
   height: 3rem;
   border-radius: 8px;
   box-sizing: border-box;
@@ -38,7 +38,7 @@ export const StyledInput = styled.input`
 export const StyledButton = styled.button`
   border: 1px solid #12664f;
   background-color: #26c485;
-  width: 16vw;
+  width: 16rem;
   height: 3rem;
   border-radius: 8px;
 `;
