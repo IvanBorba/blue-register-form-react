@@ -2,11 +2,10 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #302f4d;
 `;
 
 export const FormContainer = styled.div`
@@ -41,4 +40,6 @@ export const StyledButton = styled.button`
   width: 16rem;
   height: 3rem;
   border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 3px 5px 2px 0px rgba(0, 0, 0, 0.75);
 `;
