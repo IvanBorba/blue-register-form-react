@@ -4,38 +4,36 @@ import {
   StyledInput,
   StyledButton,
 } from "../../styles";
-import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const registerSchema = yup.object().shape({
+  name: yup.string().required("Campo de nome obrigatório"),
+
+  email: yup
+    .string()
+    .email("Formato de email inválido")
+    .required("Campo de email obrigatório"),
+
+  password: yup.string().required("Campo de senha obrigatório"),
+
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Senhas não correspondem")
+    .required("Campo de confirmação de senha obrigatório"),
+});
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(registerSchema) });
 
-  const handleCreateUser = () => {
-    if (name === "") {
-      return toast.error("Nome de usuário obrigatório");
-    }
-
-    if (email === "") {
-      return toast.error("Email de usuário obrigatório");
-    }
-
-    if (password === "") {
-      return toast.error("Senha de usuário obrigatório");
-    }
-
-    if (password !== confirmPassword) {
-      return toast.error("Senhas não coincidem");
-    }
-
-    const data = {
-      name,
-      email,
-      password,
-    };
+  const handleCreateUser = (data) => {
+    delete data.confirmPassword;
 
     axios
       .post("http://localhost:3333/users", data)
@@ -44,30 +42,26 @@ const Register = () => {
 
   return (
     <MainContainer>
-      <FormContainer>
-        <StyledInput
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <StyledInput
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <FormContainer onSubmit={handleSubmit(handleCreateUser)}>
+        <StyledInput placeholder="Name" {...register("name")} />
+        <StyledInput placeholder="E-mail" {...register("email")} />
         <StyledInput
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           type="password"
+          {...register("password")}
         />
         <StyledInput
           placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
           type="password"
+          {...register("confirmPassword")}
         />
-        <StyledButton onClick={handleCreateUser}>Enviar</StyledButton>
+        <p style={{ fontSize: "small", color: "red" }}>
+          {errors.name?.message ||
+            errors.email?.message ||
+            errors.password?.message ||
+            errors.confirmPassword?.message}
+        </p>
+        <StyledButton type="submit">Enviar</StyledButton>
       </FormContainer>
     </MainContainer>
   );

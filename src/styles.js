@@ -8,9 +8,9 @@ export const MainContainer = styled.div`
   justify-content: center;
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   min-width: 20rem;
-  height: 50vh;
+  height: 55vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
